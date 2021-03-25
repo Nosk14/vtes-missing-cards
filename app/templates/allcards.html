@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <style>
+      body {background-color: black;}
+      h1   {color: white;}
+      p    {color: red;}
+     #accordion {margin: 2%}
+     .card-header {background-color: white; padding: 5px}
+         .grid-container {
+         display: grid;
+         grid-column-gap: 5px;
+         grid-row-gap: 10px;
+         {% if is_mobile %}
+         grid-template-columns: auto auto auto;
+         {% else %}
+         grid-template-columns: auto auto auto auto auto;
+         {% endif  %}
+         padding-left: 15px;
+         padding-right: 15px;
+     }
+     img { width: 250px; height: auto  }
+     .vtes-card-name {text-align: center}
+    </style>
+
+
+    <title>VTES All Cards</title>
+</head>
+<body>
+<h1>VTES Card List</h1>
+
+<div id="accordion">
+    {% for zet in zets %}
+
+    <div class="card">
+        <div class="card-header" id="heading{{zet['id']}}">
+            <h5 class="mb-0">
+                <button class="btn btn-link" data-toggle="collapse" data-target="#collapse{{zet['id']}}"
+                        aria-expanded="true" aria-controls="collapse{{zet['id']}}">
+                    {{zet['name']}}
+                </button>
+            </h5>
+        </div>
+
+        <div id="collapse{{zet['id']}}" class="collapse" aria-labelledby="heading{{zet['id']}}"
+             data-parent="#accordion">
+            <div class="card-body">
+
+<div class="grid-container">
+    {% for card in zet['cards'] %}
+    <div class="vtes-card">
+            <table>
+                <tbody>
+                <tr>
+                    <td>
+                        {% if card['image'] %}
+                            <img class="img-{{zet['id']}}" src="" data-src="{{card['image']}}"/>
+                        {% elif card['id'].startswith('2') %}
+                            <img class="img-{{zet['id']}}" src="" data-src="https://statics.bloodlibrary.info/img/cardbackcrypt.jpg"/>
+                        {% else %}
+                            <img class="img-{{zet['id']}}" src="" data-src="https://statics.bloodlibrary.info/img/cardbacklibrary.jpg"/>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="vtes-card-name">{{card['name']}}</td>
+                </tr>
+                </tbody>
+            </table>
+    </div>
+    {% endfor %}
+</div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+
+</div>
+
+<footer>
+    <img src="http://www.vekn.net/images/stories/ww/dark-pact.png" alt="" width="150" height="117">
+    <p>
+        Portions of the materials are the copyrights and trademarks of White Wolf Publishing AB, and are used with
+        permission. All rights reserved. For more information please visit <a href="http://www.white-wolf.com/">white-wolf.com</a>.
+    </p>
+</footer>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+<script>
+    {% for zet in zets %}
+
+$('#collapse{{zet['id']}}').on('show.bs.collapse', function () {
+  $('.img-{{zet['id']}}').each( function()  {
+    this.setAttribute('src', this.getAttribute('data-src'));
+  });
+})
+    {% endfor %}
+
+
+</script>
+
+</body>
+</html>
