@@ -31,6 +31,7 @@
      .vtes-card-name {text-align: center}
      .vtes-card { display:inline-block }
      .flex-container { flex-wrap: wrap; justify-content: flex-start }
+     .set-icon { width: 16px; height: auto; }
     </style>
 
 
@@ -47,7 +48,7 @@
             <h5 class="mb-0">
                 <button class="btn btn-link" data-toggle="collapse" data-target="#collapse{{zet['id']}}"
                         aria-expanded="true" aria-controls="collapse{{zet['id']}}">
-                    {{zet['name']}}  ({{zet['total_images']}}/{{zet['total_cards']}})
+                   {% if zet['icon'] %}<img class="set-icon" src="{{zet['icon']}}"/> &nbsp;&nbsp;{% endif %} {{zet['name']}}  ({{zet['total_images']}}/{{zet['total_cards']}})
                 </button>
             </h5>
         </div>
