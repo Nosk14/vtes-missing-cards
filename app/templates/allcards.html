@@ -20,7 +20,7 @@
          grid-column-gap: 5px;
          grid-row-gap: 10px;
          {% if is_mobile %}
-         grid-template-columns: auto auto auto;
+         grid-template-columns: auto auto;
          {% else %}
          grid-template-columns: auto auto auto auto auto;
          {% endif  %}
@@ -29,6 +29,8 @@
      }
      img { width: 250px; height: auto  }
      .vtes-card-name {text-align: center}
+     .vtes-card { display:inline-block }
+     .flex-container { flex-wrap: wrap; justify-content: flex-start }
     </style>
 
 
@@ -54,7 +56,7 @@
              data-parent="#accordion">
             <div class="card-body">
 
-<div class="grid-container">
+<div class="flex-container">
     {% for card in zet['cards'] %}
     <div class="vtes-card">
             <table>
