@@ -1,15 +1,15 @@
 import logging
+from datetime import datetime
+
 from flask import Flask, render_template, request
 from flask_mobility import Mobility
 from requests import get
-from datetime import datetime
 
 INFO_ENDPOINT = 'https://api.bloodlibrary.info/api/sets'
 UPDATE_INTERVAL = 12 * 3600
 
 app = Flask(__name__)
 Mobility(app)
-
 
 if __name__ != '__main__':
     gunicorn_logger = logging.getLogger('gunicorn.error')
@@ -25,7 +25,12 @@ def get_info():
     global data_last_update
     if (datetime.now() - data_last_update).total_seconds() > UPDATE_INTERVAL:
         raw_data = get(INFO_ENDPOINT).json()
-        data = raw_data  # {zet['id']: zet for zet in raw_data}
+        data = [
+            {**zet,
+             'total_cards': len(zet['cards']),
+             'total_images': sum(1 for card in zet['cards'] if card['image'])
+             }
+            for zet in raw_data]
         data_last_update = datetime.now()
     return data
 
