@@ -20,10 +20,10 @@ data = None
 data_last_update = datetime.min
 
 
-def get_info():
+def get_info(force_refresh=False):
     global data
     global data_last_update
-    if (datetime.now() - data_last_update).total_seconds() > UPDATE_INTERVAL:
+    if force_refresh or ((datetime.now() - data_last_update).total_seconds() > UPDATE_INTERVAL):
         raw_data = get(INFO_ENDPOINT).json()
         data = [
             {**zet,
@@ -40,7 +40,8 @@ get_info()
 
 @app.route("/", methods=['GET'])
 def cards_panel():
-    data = get_info()
+    should_refresh = request.args.get('refresh', default="false").lower() in ['true', '1', 't', 'y', 'yes']
+    data = get_info(should_refresh)
     return render_template('allcards.html', zets=data, is_mobile=request.MOBILE)
 
 
